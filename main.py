@@ -7,7 +7,7 @@ import datetime
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 # DATASET
-BUFFER_SIZE = 80 # Training set sample count
+BUFFER_SIZE = 77 # Training set sample count
 IMAGE_WIDTH = 64
 IMAGE_HEIGHT = 64
 IMAGE_CHANNELS = 4
@@ -25,7 +25,8 @@ LOG_DIR = "logs/"
 
 # TRAINING
 BATCH_SIZE = 1 # Batch size of 1 produced better results for U-Net in original pix2pix
-TRAIN_STEPS = 1000
+TRAIN_STEPS = 40000
+CHECKPOINT_AFTER_STEPS = 5000
 
 AUTOTUNE = tf.data.AUTOTUNE
 
@@ -225,7 +226,7 @@ def fit(train_ds, steps):
       print('.', end='', flush=True)
 
     # Save (checkpoint) the model every 5k steps
-    if (step + 1) % 1000 == 0:
+    if (step + 1) % CHECKPOINT_AFTER_STEPS == 0:
       checkpoint.save(file_prefix=CHECKPOINT_PREFIX)
 
 fit(dataset, steps=TRAIN_STEPS)
